@@ -1,7 +1,7 @@
 ---
 title: "project_1"
 author: "B"
-date: "2019³â 4¿ù 16ÀÏ"
+date: "2019ë…„ 4ì›” 16ì¼"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -159,9 +159,9 @@ w<-w.data[,1][[1]]
 v<-w.data[,2][[1]]
 t<-w.data[,3][[1]]
 
-#È¸±Í½Ä »êÃâ
+#íšŒê·€ì‹ ì‚°ì¶œ
 l <- lm(w~t*v+t*sqrt(v)+t+v+sqrt(v), data=w.data)
-#ÀûÇÕÄ¡ »êÃâ
+#ì í•©ì¹˜ ì‚°ì¶œ
 w.new <-44.35941+0.50868*t+1.56431*v-25.24545*sqrt(v)-0.01725*t*v+0.27554*t*sqrt(v)
 
 
@@ -171,13 +171,13 @@ w.new <-44.35941+0.50868*t+1.56431*v-25.24545*sqrt(v)-0.01725*t*v+0.27554*t*sqrt
 
 ##plotting
 ```{r warning=FALSE}
-#È¸±Í½Ä ±×·¡ÇÁ  
+#íšŒê·€ì‹ ê·¸ë˜í”„  
 plot(l)
-#DataÀÇ »êÁ¡µµ  
+#Dataì˜ ì‚°ì ë„  
 scatterplot3d(v, t, w, rep("blue",120), pch=16, type="h", angle=55, cex.symbols = 1.5, lty.hplot = 3, main="Data", cex.lab=2)
-#ÀûÇÕÄ¡ÀÇ »êÁ¡µµ ±×¸®±â
+#ì í•©ì¹˜ì˜ ì‚°ì ë„ ê·¸ë¦¬ê¸°
 scatterplot3d(v, t, w.new, rep("red",120), pch=16, type="h", angle=55, cex.symbols = 1.5, lty.hplot = 3, main="Fitted", cex.lab=2)
-#¿øÀÚ·á¿Í ÀûÇÕÄ¡¸¦ ÇÕÄ£ ±×·¡ÇÁ  
+#ì›ìë£Œì™€ ì í•©ì¹˜ë¥¼ í•©ì¹œ ê·¸ë˜í”„  
 
 d1<-cbind(w.data)
 d2<-cbind(w.new,w.data[,2:3])
@@ -188,9 +188,9 @@ scatterplot3d(dT$Velocity, dT$Temp, dT$E.Temp, c(rep("blue",120),rep("red",120))
 
 ```
 
-##+µ¶¸³º¯¼ö¿Í Á¾¼Óº¯¼ö °ü°è
+##+ë…ë¦½ë³€ìˆ˜ì™€ ì¢…ì†ë³€ìˆ˜ ê´€ê³„
 ```{r warning=FALSE}
-#t¿Í w
+#tì™€ w
 ut<-unique(t)
 w.m.t<-c()
 for(i in 1:12){
@@ -198,7 +198,7 @@ a<-mean(w[d1[,3]==ut[i]])
 w.m.t<-c(w.m.t,a)
 }
 plot(w.m.t~ut, type="b")
-#v¿Í w 
+#vì™€ w 
 a<-NULL
 uv<-unique(v)
 w.m.v<-c()

@@ -1,0 +1,85 @@
+---
+title: "Crolling"
+author: "B"
+date: "2019년 4월 24일"
+output: html_document
+---
+
+#Crolling 과제 
+
+####-library-
+
+```{r warning=FALSE }
+
+library(httr)
+library(urltools)
+library(rvest)
+library(tidyverse)
+
+
+```
+
+
+##과제 1 : 다음 실시간 검색어 크롤링
+
+```{r warning=FALSE }
+
+
+# HTTP 요청
+res <- GET(url = 'https://www.daum.net/')
+
+# 실시간 검색어를 추출 
+searchWords <- res %>% 
+  read_html() %>% 
+  html_nodes(css = 'div.realtime_part > ol > li > div > div:nth-child(1) > span.txt_issue > a') %>% 
+  html_text(trim = TRUE)
+
+# 결과 출력
+print(x = searchWords)
+
+
+```
+
+
+##과제 2 : KOSPI 페이지 표 크롤링
+
+```{r warning=FALSE}
+
+# HTTP 요청
+res <- GET(url = 'https://finance.naver.com/sise/sise_index.nhn?code=KOSPI')
+
+# Encoding 문제가 생겨서 사이트 Encoding 방식을 확인해봤습니다. 
+readr::guess_encoding(file='C:/Users/bdy62/OneDrive/바탕 화면/코스피 _ 네이버 금융.html')
+
+# 코스피 표 불러오기 
+tbl <- res %>% 
+  read_html(encoding='EUC-KR') %>%
+  html_nodes(css = '#contentarea_left > div.box_top_sub > div > div.subtop_sise_detail > table') %>% 
+  html_table(trim = TRUE)
+
+# 결과 출력
+print(tbl)
+
+
+
+# 표 깔끔하게 처리 
+t.data<-tbl[[1]]
+colnames(t.data)<-rep(c("Name","Value"),2)
+new.table<-rbind(t.data[-4,1:2],t.data[-4,3:4])
+con <- t.data[4,] %>% str_split(pattern = '\n\t')
+content<-con[[2]] %>% str_remove_all(pattern=" ")
+split<-content %>% str_split(pattern="종목수")
+c1<-c()
+for(i in 1:5)
+{c1[i] <- split[[i]][1]}
+c2<-c()
+for(i in 1:5)
+{c2[i] <- split[[i]][2]}
+c1<-paste(c1, "종목수", sep="")
+d<-cbind(c1,c2)
+colnames(d)<-colnames(new.table)
+Data<-rbind(new.table, d)
+
+# 최종 결과 출력
+print(Data)
+```
